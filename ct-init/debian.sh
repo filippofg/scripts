@@ -1,11 +1,11 @@
 #!/bin/bash
-## debian-init.sh: initialize new Debian container
+## debian-init.sh: initialize new Debian-based container
 
 set -e
 
 help() {
 cat << EOF
-$0 - initialize new Debian container with custom packages and config files.
+$0 - initialize new Debian-based container with custom packages and config files.
 Usage: $0 [PACKAGES]
     PACKAGES	    extra Debian packages to install
 
@@ -53,7 +53,7 @@ systemctl restart ssh.service
 # ~/.bashrc aliases
 cat >> ~/.bashrc << "EOF"
 # Prompt
-export PS1="\[\033[38;5;1m\]\u\[$(tput sgr0)\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]:\[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\] \\$\[$(tput sgr0)\]"
+export PS1="\[\033[38;5;1m\]\u\[$(tput sgr0)\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]:\[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\\$\[$(tput sgr0)\] "
 # ls
 export LS_OPTIONS='--color=auto -hF'
 eval "$(dircolors)"
