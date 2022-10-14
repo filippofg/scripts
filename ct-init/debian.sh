@@ -1,5 +1,5 @@
 #!/bin/bash
-## debian-init.sh: initialize new Debian-based container
+## debian.sh: initialize new Debian-based container
 
 set -e
 
@@ -27,7 +27,7 @@ fi
 # Install common useful packages
 apt-get update
 apt-get dist-upgrade -y
-apt-get install -y git make vim unzip zip curl openssh-server rsync neofetch htop "$@"
+apt-get install -y git make vim unzip zip curl openssh-server rsync neofetch htop tmux sudo tree fd-find "$@"
 apt-get autoremove -y
 
 # SSH server
@@ -48,12 +48,8 @@ AcceptEnv LANG LC_*
 Subsystem	sftp	/usr/lib/openssh/sftp-server
 EOF
 
-systemctl restart ssh.service
-
 # ~/.bashrc aliases
 cat >> ~/.bashrc << "EOF"
-# Prompt
-export PS1="\[\033[38;5;1m\]\u\[$(tput sgr0)\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]:\[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\\$\[$(tput sgr0)\] "
 # ls
 export LS_OPTIONS='--color=auto -hF'
 eval "$(dircolors)"
@@ -66,13 +62,17 @@ alias lt='ls $LS_OPTIONS -lt'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+alias fd='fdfind'
 
 function mkcd {
     mkdir -p -- "$1" && cd -P -- "$1"
 }
 
-[[ ! -f $(which neofetch) ]] || neofetch
-
 EOF
+
+git clone https://github.com/filippofg/dotfiles
+cp dotfiles/tmux.conf /etc
+
+systemctl restart sshd
 
 echo "All done!"
