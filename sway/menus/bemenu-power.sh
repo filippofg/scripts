@@ -1,1 +1,0 @@
-/home/phil/.bin/sway/menus/gruvbox/bemenu-power.sh

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+THIS_FOLDER=$(dirname $0)
+source $THIS_FOLDER/common.sh
+
+PROMPT="% "
+run bemenu-run $PROMPT

@@ -1,0 +1,42 @@
+#!/bin/bash
+
+THIS_FOLDER=$(dirname $0)
+source $THIS_FOLDER/common.sh
+
+OPTIONS=(
+    "lock"
+    "exit"
+    "suspend"
+    "hibernate"
+    "poweroff"
+    "cancel"
+)
+PROMPT="Power "
+
+CHOICE=$(printf "%s\n" ${OPTIONS[*]} | run bemenu $POWER)
+case $CHOICE in
+    "lock")
+        swaylock        
+        ;;
+    "suspend")
+        playerctl pause
+        amixer set Master mute
+        swaylock -f
+        systemctl suspend
+        ;;
+    "reboot")
+        systemctl reboot
+        ;;
+    "logout")
+        swaymsg exit
+        ;;
+    "hibernate")
+        systemctl hibernate
+        ;;
+    "poweroff")
+        systemctl poweroff
+        ;;
+    *)
+        ;;
+esac
+
