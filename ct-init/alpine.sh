@@ -18,9 +18,9 @@ fi
 
 # Package installation
 apk -U upgrade
-apk add openssh-server git mae vim unzip zip curl rsync neofetc htop "$@"
+apk add openssh-server git vim unzip zip curl rsync htop "$@"
 
 rc-update add sshd
-rc-service sshd start # may be useless
+rc-service sshd restart
 
 echo "All done!"

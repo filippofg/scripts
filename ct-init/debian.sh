@@ -29,6 +29,7 @@ apt-get update
 apt-get dist-upgrade -y
 apt-get install -y git make vim unzip zip curl openssh-server rsync neofetch htop tmux sudo tree fd-find "$@"
 apt-get autoremove -y
+apt-get autoclean -y
 
 # SSH server
 cat > /etc/ssh/sshd_config << "EOF"
@@ -70,8 +71,21 @@ function mkcd {
 
 EOF
 
-git clone https://github.com/filippofg/dotfiles
-cp dotfiles/tmux.conf /etc
+cat >> /etc/tmux.conf << "EOF"
+# Set prefix keybind to Ctrl+a
+unbind C-b
+set -g prefix C-a
+bind C-a send-prefix
+
+# Enable mouse scrolling
+set -g mouse on
+set -g history-limit 100000
+bind -T root WheelUpPane   if-shell -F -t = "#{alternate_on}" "send-keys -M" "select-pane -t =; copy-mode -e; send-keys -M"
+bind '"' split-window -c "#{pane_current_path}"
+bind % split-window -h -c "#{pane_current_path}"
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "wl-copy"
+bind-key p run "wl-paste | tmux load-buffer - ; tmux paste-buffer"
+EOF
 
 systemctl restart sshd
 
