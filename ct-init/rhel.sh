@@ -28,7 +28,7 @@ fi
 dnf -y upgrade --refresh
 dnf -y install epel-release elrepo-release
 dnf -y upgrade --refresh
-dnf -y install git make vim unzip zip curl openssh-server rsync htop "@"
+dnf -y install git make vim unzip zip curl openssh-server rsync htop "$@"
 dnf -y autoremove
 
 # SSH server
